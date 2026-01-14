@@ -17,28 +17,21 @@ environments.
 
 This project provides:
 
-- A **fully discrete-time PID controller** implemented in C++
+* A **fully discrete-time PID controller** implemented in C++
+* Support for
 
-- Support for
+  * output saturation
+  * conditional anti-windup
+  * filtered derivative
 
-  - output saturation
-
-  - conditional anti-windup
-
-  - filtered derivative
-
-- A **MEX interface** that exposes the C++ controller to MATLAB
-
-- A **test suite** that verifies the numerical and behavioral
+* A **MEX interface** that exposes the C++ controller to MATLAB
+* A **test suite** that verifies the numerical and behavioral
   correctness of the controller
+* A **multirate Simulink implementation** where
 
-- A **multirate Simulink implementation** where
-
-  - the controller runs at a fixed control rate
-
-  - the plant runs at a faster simulation rate
-
-  - sampling and zero-order holds are explicitly modeled
+  * the controller runs at a fixed control rate
+  * the plant runs at a faster simulation rate
+  * sampling and zero-order holds are explicitly modeled
 
 The same C++ controller is used in all cases. MATLAB and Simulink are
 only harnesses around it.
@@ -47,15 +40,11 @@ only harnesses around it.
 
 This repository does **not** attempt to cover:
 
-- auto-tuning
-
-- MPC or optimal control
-
-- nonlinear plants
-
-- embedded hardware drivers
-
-- real-time operating systems
+* auto-tuning
+* MPC or optimal control
+* nonlinear plants
+* embedded hardware drivers
+* real-time operating systems
 
 The focus is narrow and deliberate:  
 **a single, correct, discrete-time PID implementation and how to use it
@@ -65,25 +54,18 @@ from MATLAB and Simulink in a realistic way.**
 
 Most MATLAB PID examples:
 
-- use built-in PID blocks
-
-- hide sampling, saturation, and anti-windup
-
-- do not reflect how controllers are implemented in C or C++
-
-- do not carry state across calls the way real controllers do
+* use built-in PID blocks
+* hide sampling, saturation, and anti-windup
+* do not reflect how controllers are implemented in C or C++
+* do not carry state across calls the way real controllers do
 
 This repository is different:
 
-- the controller lives in C++
-
-- it maintains its own state
-
-- it is called through a binary interface (MEX)
-
-- it is validated by tests
-
-- it is exercised in a multirate Simulink model
+* the controller lives in C++
+* it maintains its own state
+* it is called through a binary interface (MEX)
+* it is validated by tests
+* it is exercised in a multirate Simulink model
 
 This makes it a useful bridge between classical control theory and the
 way control software is written, tested, and integrated in robotics,
@@ -93,11 +75,9 @@ automotive, and related fields.
 
 This demonstration is intended for:
 
-- control engineers who want to move from MATLAB into C++
-
-- engineers working in robotics or automotive software roles
-
-- students who want to understand how digital controllers are actually
+* control engineers who want to move from MATLAB into C++
+* engineers working in robotics or automotive software roles
+* students who want to understand how digital controllers are actually
   implemented
 
 The material assumes basic familiarity with PID control and MATLAB, but
@@ -108,37 +88,31 @@ on the previous one.
 
 The recommended learning path is:
 
-00_overview.md
+00\_overview.md
 
-01_pid_theory.md
+01\_pid\_theory.md
 
-02_discrete_implementation.md
+02\_discrete\_implementation.md
 
-03_cpp_implementation.md
+03\_cpp\_implementation.md
 
-04_mex_architecture.md
+04\_mex\_architecture.md
 
-07_test_pid.md
+07\_test\_pid.md
 
-05_matlab_harness.md
+05\_matlab\_harness.md
 
-06_simulink_harness.md
+06\_simulink\_harness.md
 
 This progression mirrors how a controller is developed:
 
-1.  What a PID is
-
-2.  How it is discretized
-
-3.  How it is implemented in C++
-
-4.  How it is exposed to MATLAB
-
-5.  How it is verified
-
-6.  How it is run in MATLAB
-
-7.  How it is integrated into Simulink
+1. What a PID is
+2. How it is discretized
+3. How it is implemented in C++
+4. How it is exposed to MATLAB
+5. How it is verified
+6. How it is run in MATLAB
+7. How it is integrated into Simulink
 
 By the end, the reader will have followed a complete path from control
 equations to a working multirate simulation driven by C++ code.
@@ -147,22 +121,24 @@ equations to a working multirate simulation driven by C++ code.
 
 At a high level, the repository contains:
 
-- src/  
+* src/  
   The C++ PID controller and MEX interface
-
-- matlab/  
+* matlab/  
   MATLAB demos and build scripts
-
-- tests/  
+* tests/  
   Deterministic MATLAB tests for the controller
-
-- simulink/  
+* simulink/  
   A multirate Simulink model using the C++ controller
-
-- docs/  
+* docs/  
   The technical documentation that explains how everything fits together
 
-**Bibliographic References (IEEE format)**
+
+
+
+
+
+
+**References**
 
 **1) PID control theory**
 
@@ -182,7 +158,7 @@ Documentation*, accessed Jan. 13, 2026.
 
 **4) Anti-windup explanation (accessible resource)**
 
-B. Douglas, “Anti-windup for PID control \| Understanding PID Control,
+B. Douglas, “Anti-windup for PID control | Understanding PID Control,
 Part 2,” *MathWorks Video*, Jun. 6, 2018.
 
 **Open-Source Code / Repositories**
@@ -208,3 +184,4 @@ J. Tilly, *mex*, GitHub repository (collection of MEX examples).
 
 MathWorks, *PID Controller*, *Simulink Documentation* (general
 overview).
+
