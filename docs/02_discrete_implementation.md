@@ -1,5 +1,3 @@
-**02_discrete_implementation.md**
-
 **Discrete-time PID with filtered derivative, saturation, and
 anti-windup**
 

@@ -1,5 +1,3 @@
-**04_mex_architecture.md**
-
 MATLAB MEX Interface Architecture
 
 This document describes how the C++ PID controller is exposed to MATLAB
@@ -15,23 +13,20 @@ persistent PidController instance.
 
 The MEX layer is designed to provide:
 
-- A single persistent controller instance shared across MATLAB calls
-
-- A command based interface similar to a C API
-
-- Full access to internal PID signals for testing and plotting
-
-- Deterministic behavior suitable for Simulink multirate execution
+* A single persistent controller instance shared across MATLAB calls
+* A command based interface similar to a C API
+* Full access to internal PID signals for testing and plotting
+* Deterministic behavior suitable for Simulink multirate execution
 
 **2. Persistent controller instance**
 
 The MEX file owns exactly one controller instance. This instance
-persists across calls to pid_mex() inside a MATLAB session.
+persists across calls to pid\_mex() inside a MATLAB session.
 
-This design allows MATLAB and Simulink to call pid_mex('step', ...)
+This design allows MATLAB and Simulink to call pid\_mex('step', ...)
 repeatedly without reinitializing the controller.
 
-The g_is_init flag enforces that init or reset must be called before the
+The g\_is\_init flag enforces that init or reset must be called before the
 first step.
 
 **3. Cleanup on MEX unload**
@@ -44,20 +39,20 @@ accidentally reused across sessions.
 
 All MEX calls follow the pattern:
 
-pid_mex('command', ...)
+pid\_mex('command', ...)
 
 The first argument must be a string. The MEX layer routes execution
 based on this string.
 
 Supported commands:
 
-| **Command** | **Purpose**                                      |
-|-------------|--------------------------------------------------|
-| init        | Initialize controller parameters and reset state |
-| step        | Advance the controller one time step             |
-| reset       | Reset state while keeping current parameters     |
-| setParams   | Update parameters without resetting state        |
-| getState    | Return the current internal state                |
+|**Command**|**Purpose**|
+|-|-|
+|init|Initialize controller parameters and reset state|
+|step|Advance the controller one time step|
+|reset|Reset state while keeping current parameters|
+|setParams|Update parameters without resetting state|
+|getState|Return the current internal state|
 
 Any unsupported string results in an error.
 
@@ -75,27 +70,24 @@ This is the main control entry point.
 
 The MEX layer enforces:
 
-- ref, meas, and dt must be real scalar doubles
-
-- The controller must have been initialized
+* ref, meas, and dt must be real scalar doubles
+* The controller must have been initialized
 
 Return values:
 
-- u is the saturated control output
-
-- dbg is a struct containing internal PID signals
+* u is the saturated control output
+* dbg is a struct containing internal PID signals
 
 **7. MEX build system**
 
-The MEX file is built using matlab/build_mex.m:
+The MEX file is built using matlab/build\_mex.m:
 
 This compiles and links:
 
-- pid_mex.cpp
+* pid\_mex.cpp
+* PidController.cpp
 
-- PidController.cpp
-
-and places the resulting pid_mex.\<mexext\> into the MATLAB folder so it
+and places the resulting pid\_mex.<mexext> into the MATLAB folder so it
 is on the MATLAB path.
 
 **8. MATLAB usage pattern**
@@ -108,17 +100,18 @@ params.Ki = 80;
 
 params.Kd = 0.5;
 
-params.u_min = -1;
+params.u\_min = -1;
 
-params.u_max = 1;
+params.u\_max = 1;
 
-params.enable_anti_windup = true;
+params.enable\_anti\_windup = true;
 
-params.deriv_filter_hz = 10;
+params.deriv\_filter\_hz = 10;
 
-pid_mex('init', params);
+pid\_mex('init', params);
 
-\[out, dbg\] = pid_mex('step', ref, meas, dt);
+\[out, dbg] = pid\_mex('step', ref, meas, dt);
 
 The controller persists between calls, allowing it to be used inside
 loops and Simulink blocks.
+

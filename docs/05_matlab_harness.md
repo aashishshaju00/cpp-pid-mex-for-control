@@ -1,5 +1,3 @@
-**05_matlab_implementation.md**
-
 **MATLAB Harness and Demo Scripts**
 
 This document describes how MATLAB is used as a simulation and

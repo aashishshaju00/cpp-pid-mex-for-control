@@ -1,5 +1,3 @@
-**01_pid_theory.md**
-
 **PID control with filtered derivative**
 
 This section introduces the PID control law used throughout this

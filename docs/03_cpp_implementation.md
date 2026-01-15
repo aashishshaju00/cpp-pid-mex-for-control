@@ -1,18 +1,14 @@
-**03_cpp_implementation.md**
-
 C++ PID Controller Implementation
 
 This section documents the C++ layer of the controller. All control
-behavior described in 01_pid_theory.md and 02_discrete_implementation.md
+behavior described in 01\_pid\_theory.md and 02\_discrete\_implementation.md
 is implemented here.
 
 The C++ implementation consists of three parts:
 
-- Data structures that define parameters, state, and outputs
-
-- The PidController class that implements the discrete time control law
-
-- A small set of helper functions for safety and saturation
+* Data structures that define parameters, state, and outputs
+* The PidController class that implements the discrete time control law
+* A small set of helper functions for safety and saturation
 
 Only this layer performs control calculations.
 
@@ -34,9 +30,9 @@ PidState stores all memory variables required by the discrete time
 equations.
 
 These correspond directly to the states introduced in
-02_discrete_implementation.md.
+02\_discrete\_implementation.md.
 
-The has_prev flag is used to suppress derivative calculation on the
+The has\_prev flag is used to suppress derivative calculation on the
 first call, where no valid previous sample exists.
 
 **3. Output packaging: PidOutput**
@@ -51,9 +47,8 @@ behavior without reimplementing any logic.
 
 The class owns exactly two pieces of data:
 
-- params\_, which holds the tuning parameters
-
-- state\_, which holds all dynamic state
+* params\_, which holds the tuning parameters
+* state\_, which holds all dynamic state
 
 There is no global state inside the class. Persistence is provided at
 the MEX layer.
@@ -62,9 +57,8 @@ the MEX layer.
 
 The controller refuses to run if:
 
-- dt is nonpositive
-
-- Any input is NaN or infinite
+* dt is nonpositive
+* Any input is NaN or infinite
 
 In this case the output is forced to zero. No state is updated. This
 prevents numerical corruption of the integrator or derivative state.
@@ -73,14 +67,14 @@ prevents numerical corruption of the integrator or derivative state.
 
 This implements:
 
-e\[k\] = r\[k\] − y\[k\]  
-P\[k\] = Kp · e\[k\]
+e\[k] = r\[k] − y\[k]  
+P\[k] = Kp · e\[k]
 
 **7. Backward difference derivative**
 
 This implements:
 
-ė\[k\] = ( e\[k\] − e\[k−1\] ) / Ts
+ė\[k] = ( e\[k] − e\[k−1] ) / Ts
 
 On the first call, no derivative is computed and the previous values are
 initialized.
@@ -88,13 +82,13 @@ initialized.
 **8. First order derivative filter**
 
 This matches the discrete time filter derived in
-02_discrete_implementation.md:
+02\_discrete\_implementation.md:
 
-d_f\[k\] = α d_f\[k−1\] + (1 − α) ė\[k\]
+d\_f\[k] = α d\_f\[k−1] + (1 − α) ė\[k]
 
 with
 
-α = exp(−2π f_c Ts)
+α = exp(−2π f\_c Ts)
 
 If filtering is disabled, the raw derivative is used.
 
@@ -102,7 +96,7 @@ If filtering is disabled, the raw derivative is used.
 
 This implements forward Euler integration:
 
-I\[k\] = I\[k−1\] + e\[k\] Ts
+I\[k] = I\[k−1] + e\[k] Ts
 
 The integrator is not committed yet. It is only a candidate until anti
 windup is evaluated.
@@ -116,9 +110,8 @@ modified here.
 
 This implements conditional integration:
 
-- If saturated high and error is positive, reject
-
-- If saturated low and error is negative, reject
+* If saturated high and error is positive, reject
+* If saturated low and error is negative, reject
 
 Otherwise integration is allowed.
 
@@ -137,4 +130,5 @@ u.
 reset() clears state\_.  
 init(params) sets parameters and resets state.
 
-This ensures a clean controller whenever MATLAB calls pid_mex('init').
+This ensures a clean controller whenever MATLAB calls pid\_mex('init').
+
