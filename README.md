@@ -1,15 +1,7 @@
 # cpp-pid-mex-for-control
 
 ## Overview
-This repository demonstrates a discrete-time PID controller implemented
-in modern C++ and called from MATLAB and Simulink using a compiled MEX
-file to provide fast, stateful control execution that reflects how
-digital controllers are used in practice.
-The goal is not to provide another MATLAB PID example. The goal is to
-show how a real controller can be written in C++, verified, and
-exercised from MATLAB and Simulink in a way that is close to how control
-software is developed, tested, and integrated in professional
-environments.
+This repository demonstrates a discrete-time PID controller implemented in modern C++ and accessed from MATLAB and Simulink through a compiled MEX file. The focus is on showing how a controller written in C++ can be executed from MATLAB and Simulink in a stateful and efficient way. Rather than providing another MATLAB-only PID example, the repository illustrates an approach for implementing, testing, and running a controller across C++ and MATLAB-based environments.
 
 ## Scope
 This project provides:
