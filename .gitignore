@@ -1,0 +1,17 @@
+# ---- MATLAB / Simulink ----
+*.asv
+*.m~
+*.autosave
+slprj/
+*.slxc
+*.slx.r*
+*.mdl.r*
+
+# ---- MEX binaries ----
+*.mexw64
+*.mexa64
+*.mexmaci64
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
